@@ -26,8 +26,14 @@ func LoadConfig() {
 		log.Fatalf("%s was not configured in environment variables", envkafkaConsumerGroupID)
 	}
 
+	var kafkaReadTopic = os.Getenv(envkafkaReadTopic)
+	if kafkaReadTopic == "" {
+		log.Fatalf("%s was not configured in environment variables", envkafkaReadTopic)
+	}
+
 	config.KafkaBootstrapServers = kafkaBootstrapServers
 	config.KafkaConsumerGroupID = kafkaConsumerGroupID
+	config.KafkaReadTopic = kafkaReadTopic
 }
 
 // GetConfig returns the config data
