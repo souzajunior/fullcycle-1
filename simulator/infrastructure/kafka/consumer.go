@@ -6,9 +6,15 @@ import (
 	"simulator-fc1/config"
 )
 
-// KafkaConsumer represents the kafka consumer
-type KafkaConsumer struct {
+// KafkaServiceConsumer represents the kafka consumer
+type KafkaServiceConsumer struct {
 	Msg chan *ckafka.Message
+}
+
+func NewKafkaServiceConsumer(msgChan chan *ckafka.Message) *KafkaServiceConsumer {
+	return &KafkaServiceConsumer{
+		Msg: msgChan,
+	}
 }
 
 func newKafkaConsumer(configMap *ckafka.ConfigMap) (kafkaConsumer *ckafka.Consumer, err error) {
@@ -21,7 +27,7 @@ func newKafkaConsumer(configMap *ckafka.ConfigMap) (kafkaConsumer *ckafka.Consum
 }
 
 // Consume is responsible to consume the data from kafka topic
-func (k *KafkaConsumer) Consume() {
+func (k *KafkaServiceConsumer) Consume() {
 	var configKafkaMap = ckafka.ConfigMap{
 		"bootstrap.servers": config.GetConfig().KafkaBootstrapServers,
 		"group.id":          config.GetConfig().KafkaConsumerGroupID,
